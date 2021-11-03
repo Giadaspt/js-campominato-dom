@@ -15,9 +15,10 @@ let container = document.querySelector('.container');
 function getSelectedValue(){
   let result = parseInt(document.getElementById("windowValue").value);
   console.log(result);
-
+  
   let squares;
   let squareRow;
+
 
   if (result == 1) {
     squares = 100;
@@ -32,7 +33,6 @@ function getSelectedValue(){
 
   console.log(squares);
   console.log(squareRow);
-
 
   document.querySelector('.container').innerHTML = '';
   makeGrid(container);
@@ -49,34 +49,53 @@ function getSelectedValue(){
       square.style.width = `calc(100% / ${squareRow})`;
       square.style.height = `calc(100% / ${squareRow})`;
       container.append(square);
+
+      square.addEventListener('click', handleClick);
     }
-    document.querySelector('main').append('container');
+
+    document.querySelector('main').append(container);
     console.log('colonne e righe');
   }
-}
 
+  function handleClick(event){
+    if (this !== random_numb()){
+      this.classList.add('clicked');
+    } else {
+      this.classList.add('bombs');
+    }
 
-// function makeGrid(numb, numb_grid){
-  
-//   for(let i = 0; i < numb; i++ ) {
-//     let square = document.createElement('div');
-//     square.className = 'square';
-//     square.innerHTML = `<span> ${i +1} </span>`;
-//     square.style.width = `calc(100% / ${numb})`;
-//     square.style.height = `calc(100% / ${numb})`;
+    console.log(event.target.innerText);
+
+  }
+  // console.log(handleClick);
+
+  const bombNumb = 16;
+  let bombs = makeBombs();
+
+  function makeBombs() {
+    const bombs = [];
     
-//     // for(let k = 1; k < numb ; k++ ) {
-//     //   let square = document.createElement('div');
-//     //   square.className = 'square';
-//     //   square.style.width = `calc(100% / ${numb})`;
-//     //   square.style.height = `calc(100% / ${numb})`;
-//     //   numb_grid.append(square);
-//     //   // square.innerHTML = `<span> ${i+1} </span>`;
-//     // }
-//     numb_grid.append(square);
-//   }
-//   console.log('colonne e righe');
-// }
+    for (let i = 1; i <= bombNumb; i++ ){
+      const bomb = random_numb(1, squares);
+      
+      if (bombs.includes(bomb)){
+        i--;
+      } else{
+        bombs.push(bomb);
+      }
+    }
+    console.log(bombs);
+    console.log(bombNumb);
 
+
+  }
+
+
+  function  random_numb(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+
+}
 
 
