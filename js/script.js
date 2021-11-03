@@ -12,14 +12,15 @@ const play = document.querySelector('.btn').addEventListener('click', function()
 let container = document.querySelector('.container');
 
 
-function getSelectedValue(){
+function getSelectedValue() {
   let result = parseInt(document.getElementById("windowValue").value);
   console.log(result);
-  
+  let square;
   let squares;
   let squareRow;
-
-
+  const BOMB_NUMB= 16;
+  
+  
   if (result == 1) {
     squares = 100;
     squareRow = 10;
@@ -31,13 +32,17 @@ function getSelectedValue(){
     squareRow = 7;
   }
 
-  console.log(squares);
+  let bombs = makeBombs();
+
+  console.log('squares vale', squares);
   console.log(squareRow);
 
   document.querySelector('.container').innerHTML = '';
   makeGrid(container);
 
-  function makeGrid(){
+  function makeGrid() {
+
+    //console.log('dentro makegrid il valore di bombs è', bombs);
 
     let container = document.querySelector('.container');
     
@@ -56,46 +61,46 @@ function getSelectedValue(){
     document.querySelector('main').append(container);
     console.log('colonne e righe');
   }
+ 
+  function handleClick(event) {
 
-  function handleClick(event){
-    if (this !== random_numb()){
-      this.classList.add('clicked');
-    } else {
+    this.classList.add('clicked');
+    let e = parseInt(event.target.innerText);
+    console.log('ok',parseInt(event.target.innerText));
+    console.log('bombs vale', bombs);
+
+    if(bombs.includes(e)){
       this.classList.add('bombs');
+      console.log('ok2');
+      console.log('mina');
+    
+        
     }
+  
+  } 
 
-    console.log(event.target.innerText);
-
-  }
   // console.log(handleClick);
-
-  const bombNumb = 16;
-  let bombs = makeBombs();
 
   function makeBombs() {
     const bombs = [];
-    
-    for (let i = 1; i <= bombNumb; i++ ){
+
+    while (bombs.length < BOMB_NUMB){
       const bomb = random_numb(1, squares);
-      
-      if (bombs.includes(bomb)){
-        i--;
-      } else{
+      if (!bombs.includes(bomb)){
         bombs.push(bomb);
       }
     }
+
     console.log(bombs);
-    console.log(bombNumb);
+    console.log(BOMB_NUMB);
 
-
+    return bombs;
   }
 
 
-  function  random_numb(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
+  function random_numb(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
 
 }
-
-
